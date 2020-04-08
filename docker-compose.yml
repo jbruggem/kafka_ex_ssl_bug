@@ -1,41 +1,6 @@
 version: '3.2'
 
-volumes:
-  build_21.2:
-  build_21.3:
-  build_22.3:
-
 services:
-  test-21.2:
-    build: containers/1.9.4_erlang-21.2
-    volumes:
-    - .:/code
-    - build_21.2:/code/_build
-    working_dir: /code
-    command: tail -f /dev/null
-    depends_on:
-      - kafka1
-
-  test-21.3:
-    build: containers/1.9.4_erlang-21.3
-    volumes:
-    - .:/code
-    - build_21.3:/code/_build
-    working_dir: /code
-    command: tail -f /dev/null
-    depends_on:
-      - kafka1
-
-  test-22.3:
-    build: containers/1.9.4_erlang-22.3
-    volumes:
-    - .:/code
-    - build_22.3:/code/_build
-    working_dir: /code
-    command: tail -f /dev/null
-    depends_on:
-      - kafka1
-
   zookeeper:
     image: wurstmeister/zookeeper:3.4.6
     ports:

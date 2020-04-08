@@ -1,6 +1,6 @@
 defmodule KafkaExSslBugTest do
   use ExUnit.Case
-  doctest KafkaExSslBug
+
   alias KafkaEx.Protocol, as: Proto
 
   test "produce many messages with an acq required" do

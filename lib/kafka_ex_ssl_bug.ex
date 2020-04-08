@@ -1,2 +1,0 @@
-defmodule KafkaExSslBug do
-end

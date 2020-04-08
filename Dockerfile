@@ -1,11 +1,10 @@
 # Taken from
 # https://github.com/c0b/docker-elixir/blob/0d9f47458468a8bf1407374731cbec077ab6f895/1.9/slim/Dockerfile
+ARG OTP_VERSION
+FROM erlang:${OTP_VERSION}-slim
 
-FROM erlang:22.3-slim
-
-# elixir expects utf8.
-ENV ELIXIR_VERSION="v1.9.4" \
-	LANG=C.UTF-8
+ARG ELIXIR_VERSION="v1.9.4"
+ENV LANG=C.UTF-8
 
 RUN set -xe \
 	&& ELIXIR_DOWNLOAD_URL="https://github.com/elixir-lang/elixir/archive/${ELIXIR_VERSION}.tar.gz" \
@@ -29,7 +28,7 @@ RUN set -xe \
 
 ################### Custom stuff added for this particular project
 RUN apt-get update && \
-		apt-get install -y --no-install-recommends git gcc && \
+		apt-get install -y --no-install-recommends git build-essential ca-certificates && \
 		rm -rf /var/lib/apt/lists/* && \
 		mix local.hex --force && \
     mix local.rebar --force
