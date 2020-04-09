@@ -12,24 +12,34 @@ Dependencies:
 * docker
 * docker-compose
 
+## Add other versions to test with
+
+If you wish to test other versions, you must:
+
+1. add the version to `lib/test_runner/versions.ex`
+2. re-generate the docker-compose override by running `mix generate_docker_compose`
+
 ## Run the test
 
 The test simply consists in writing 2k messages to kafka, which involves ssl send/receive.
 
-We test it with different version of OTP, but the same version of Elixir.
+We test it with different versions of OTP, with Elixir 1.9 or 1.10.
 
 ```bash
-# Start the kafka server and a container per version we wish to test
-docker-compose up -d
+# Start the kafka server
+docker-compose up -d kafka1
 
-# Test with Elixir 1.9.4 and Erlang OTP 21.2
-docker-compose exec test_v1.9.4_21.2 mix test
+# Test with Elixir 1.9.4 and Erlang OTP 21.3.7
+docker-compose build test_v1.9.4_21.3.7
+docker-compose exec test_v1.9.4_21.3.7 mix test
 
-# Test with Elixir 1.9.4 and Erlang OTP 21.3
-docker-compose exec test_v1.9.4_21.3 mix test
+# Test with Elixir 1.9.4 and Erlang OTP 21.3.8.1
+docker-compose build test_v1.9.4_21.3.8.1
+docker-compose exec test_v1.9.4_21.3.8.1 mix test
 
-# Test with Elixir 1.9.4 and Erlang OTP 22.3
-docker-compose exec test_v1.9.4_22.3 mix test
+# Test with Elixir 1.10.2 and Erlang OTP 23.0-rc2
+docker-compose build test_v1.10.2_23.0-rc2
+docker-compose exec test_v1.10.2_23.0-rc2 mix test
 ```
 
 ## Run many times
@@ -40,7 +50,7 @@ You can run these tests many times using:
 mix run_all_tests
 ```
 
-Here are the results when running them 20 times on many versions of OTP:
+Here are the results when running them several times on many versions of OTP:
 
 ```bash
 # elixir 1.9 - OTP 20
@@ -71,11 +81,4 @@ Here are the results when running them 20 times on many versions of OTP:
 
 # elixir 1.10 - OTP 23
 [{"v1.10.2", "23.0-rc2"}] Successes: 0.0% Failures: 100.0%
-
-
 ```
-
-## Add a new version to run the tests with
-
-1. add version to `lib/test_runner/versions.ex`
-2. re-generate the docker-compose override with `mix generate_docker_compose`
