@@ -43,13 +43,35 @@ mix run_all_tests
 Here are the results when running them 20 times on many versions of OTP:
 
 ```bash
+# elixir 1.9 - OTP 20
 [{"v1.9.4", "20.3"}] Successes: 100.0% Failures: 0.0%
-[{"v1.9.4", "21.1"}] Successes: 100.0% Failures: 0.0%
+
+# elixir 1.9 - OTP 21
+[{"v1.9.4", "21.1"}] Successes: 50.0% Failures: 50.0%
 [{"v1.9.4", "21.2"}] Successes: 100.0% Failures: 0.0%
-[{"v1.9.4", "21.3"}] Successes: 0.0% Failures: 100.0%
+[{"v1.9.4", "21.3.1"}] Successes: 100.0% Failures: 0.0%
+[{"v1.9.4", "21.3.3"}] Successes: 100.0% Failures: 0.0%
+[{"v1.9.4", "21.3.5"}] Successes: 100.0% Failures: 0.0%
+[{"v1.9.4", "21.3.7"}] Successes: 100.0% Failures: 0.0%
+
+# elixir 1.9 - OTP 21.3.8
+[{"v1.9.4", "21.3.8.1"}] Successes: 0.0% Failures: 100.0%
+[{"v1.9.4", "21.3.8.7"}] Successes: 0.0% Failures: 100.0%
+[{"v1.9.4", "21.3.8.14"}] Successes: 0.0% Failures: 100.0%
+
+# elixir 1.9 - OTP 22
 [{"v1.9.4", "22.1"}] Successes: 0.0% Failures: 100.0%
 [{"v1.9.4", "22.2"}] Successes: 0.0% Failures: 100.0%
 [{"v1.9.4", "22.3"}] Successes: 0.0% Failures: 100.0%
+
+# elixir 1.10
+[{"v1.10.2", "21.2"}] Successes: 100.0% Failures: 0.0%
+[{"v1.10.2", "21.3"}] Successes: 0.0% Failures: 100.0%
+[{"v1.10.2", "22.3"}] Successes: 0.0% Failures: 100.0%
+
+# elixir 1.10 - OTP 23
+[{"v1.10.2", "23.0-rc2"}] Successes: 0.0% Failures: 100.0%
+
 
 ```
 

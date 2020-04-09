@@ -3,18 +3,14 @@ version: '3.2'
 volumes:
   build__v1.9.4_20.3:
   deps__v1.9.4_20.3:
-  build__v1.9.4_21.1:
-  deps__v1.9.4_21.1:
-  build__v1.9.4_21.2:
-  deps__v1.9.4_21.2:
-  build__v1.9.4_21.3:
-  deps__v1.9.4_21.3:
-  build__v1.9.4_22.1:
-  deps__v1.9.4_22.1:
-  build__v1.9.4_22.2:
-  deps__v1.9.4_22.2:
+  build__v1.9.4_21.3.7:
+  deps__v1.9.4_21.3.7:
+  build__v1.9.4_21.3.8.1:
+  deps__v1.9.4_21.3.8.1:
   build__v1.9.4_22.3:
   deps__v1.9.4_22.3:
+  build__v1.10.2_23.0-rc2:
+  deps__v1.10.2_23.0-rc2:
 
 services:
   test_v1.9.4_20.3:
@@ -30,66 +26,27 @@ services:
     depends_on:
       - kafka1
 
-  test_v1.9.4_21.1:
+  test_v1.9.4_21.3.7:
     build:
       context: ./
-      args: ['ELIXIR_VERSION=v1.9.4', 'OTP_VERSION=21.1']
+      args: ['ELIXIR_VERSION=v1.9.4', 'OTP_VERSION=21.3.7']
     volumes:
     - .:/code
-    - build__v1.9.4_21.1:/code/_build
-    - deps__v1.9.4_21.1:/code/deps
+    - build__v1.9.4_21.3.7:/code/_build
+    - deps__v1.9.4_21.3.7:/code/deps
     working_dir: /code
     command: tail -f /dev/null
     depends_on:
       - kafka1
 
-  test_v1.9.4_21.2:
+  test_v1.9.4_21.3.8.1:
     build:
       context: ./
-      args: ['ELIXIR_VERSION=v1.9.4', 'OTP_VERSION=21.2']
+      args: ['ELIXIR_VERSION=v1.9.4', 'OTP_VERSION=21.3.8.1']
     volumes:
     - .:/code
-    - build__v1.9.4_21.2:/code/_build
-    - deps__v1.9.4_21.2:/code/deps
-    working_dir: /code
-    command: tail -f /dev/null
-    depends_on:
-      - kafka1
-
-  test_v1.9.4_21.3:
-    build:
-      context: ./
-      args: ['ELIXIR_VERSION=v1.9.4', 'OTP_VERSION=21.3']
-    volumes:
-    - .:/code
-    - build__v1.9.4_21.3:/code/_build
-    - deps__v1.9.4_21.3:/code/deps
-    working_dir: /code
-    command: tail -f /dev/null
-    depends_on:
-      - kafka1
-
-  test_v1.9.4_22.1:
-    build:
-      context: ./
-      args: ['ELIXIR_VERSION=v1.9.4', 'OTP_VERSION=22.1']
-    volumes:
-    - .:/code
-    - build__v1.9.4_22.1:/code/_build
-    - deps__v1.9.4_22.1:/code/deps
-    working_dir: /code
-    command: tail -f /dev/null
-    depends_on:
-      - kafka1
-
-  test_v1.9.4_22.2:
-    build:
-      context: ./
-      args: ['ELIXIR_VERSION=v1.9.4', 'OTP_VERSION=22.2']
-    volumes:
-    - .:/code
-    - build__v1.9.4_22.2:/code/_build
-    - deps__v1.9.4_22.2:/code/deps
+    - build__v1.9.4_21.3.8.1:/code/_build
+    - deps__v1.9.4_21.3.8.1:/code/deps
     working_dir: /code
     command: tail -f /dev/null
     depends_on:
@@ -103,6 +60,19 @@ services:
     - .:/code
     - build__v1.9.4_22.3:/code/_build
     - deps__v1.9.4_22.3:/code/deps
+    working_dir: /code
+    command: tail -f /dev/null
+    depends_on:
+      - kafka1
+
+  test_v1.10.2_23.0-rc2:
+    build:
+      context: ./
+      args: ['ELIXIR_VERSION=v1.10.2', 'OTP_VERSION=23.0-rc2']
+    volumes:
+    - .:/code
+    - build__v1.10.2_23.0-rc2:/code/_build
+    - deps__v1.10.2_23.0-rc2:/code/deps
     working_dir: /code
     command: tail -f /dev/null
     depends_on:
