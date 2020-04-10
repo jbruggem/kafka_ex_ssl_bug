@@ -1,16 +1,19 @@
 version: '3.2'
 
 volumes:
+  hex-cache:
   build__v1.9.4_20.3:
   deps__v1.9.4_20.3:
+  build__v1.9.4_21.3.1:
+  deps__v1.9.4_21.3.1:
+  build__v1.9.4_21.3.5:
+  deps__v1.9.4_21.3.5:
   build__v1.9.4_21.3.7:
   deps__v1.9.4_21.3.7:
   build__v1.9.4_21.3.8.1:
   deps__v1.9.4_21.3.8.1:
   build__v1.9.4_22.3:
   deps__v1.9.4_22.3:
-  build__v1.10.2_23.0-rc2:
-  deps__v1.10.2_23.0-rc2:
 
 services:
   test_v1.9.4_20.3:
@@ -21,6 +24,35 @@ services:
     - .:/code
     - build__v1.9.4_20.3:/code/_build
     - deps__v1.9.4_20.3:/code/deps
+    - hex-cache:/root/.hex/packages
+    working_dir: /code
+    command: tail -f /dev/null
+    depends_on:
+      - kafka1
+
+  test_v1.9.4_21.3.1:
+    build:
+      context: ./
+      args: ['ELIXIR_VERSION=v1.9.4', 'OTP_VERSION=21.3.1']
+    volumes:
+    - .:/code
+    - build__v1.9.4_21.3.1:/code/_build
+    - deps__v1.9.4_21.3.1:/code/deps
+    - hex-cache:/root/.hex/packages
+    working_dir: /code
+    command: tail -f /dev/null
+    depends_on:
+      - kafka1
+
+  test_v1.9.4_21.3.5:
+    build:
+      context: ./
+      args: ['ELIXIR_VERSION=v1.9.4', 'OTP_VERSION=21.3.5']
+    volumes:
+    - .:/code
+    - build__v1.9.4_21.3.5:/code/_build
+    - deps__v1.9.4_21.3.5:/code/deps
+    - hex-cache:/root/.hex/packages
     working_dir: /code
     command: tail -f /dev/null
     depends_on:
@@ -34,6 +66,7 @@ services:
     - .:/code
     - build__v1.9.4_21.3.7:/code/_build
     - deps__v1.9.4_21.3.7:/code/deps
+    - hex-cache:/root/.hex/packages
     working_dir: /code
     command: tail -f /dev/null
     depends_on:
@@ -47,6 +80,7 @@ services:
     - .:/code
     - build__v1.9.4_21.3.8.1:/code/_build
     - deps__v1.9.4_21.3.8.1:/code/deps
+    - hex-cache:/root/.hex/packages
     working_dir: /code
     command: tail -f /dev/null
     depends_on:
@@ -60,19 +94,7 @@ services:
     - .:/code
     - build__v1.9.4_22.3:/code/_build
     - deps__v1.9.4_22.3:/code/deps
-    working_dir: /code
-    command: tail -f /dev/null
-    depends_on:
-      - kafka1
-
-  test_v1.10.2_23.0-rc2:
-    build:
-      context: ./
-      args: ['ELIXIR_VERSION=v1.10.2', 'OTP_VERSION=23.0-rc2']
-    volumes:
-    - .:/code
-    - build__v1.10.2_23.0-rc2:/code/_build
-    - deps__v1.10.2_23.0-rc2:/code/deps
+    - hex-cache:/root/.hex/packages
     working_dir: /code
     command: tail -f /dev/null
     depends_on:

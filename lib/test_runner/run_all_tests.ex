@@ -6,34 +6,59 @@ defmodule Mix.Tasks.RunAllTests do
 
   @impl Mix.Task
 
-  @iterations 20
+  @default_number_of_number_of_iterations 10
 
-  def run(_) do
+  def run(args) do
+    {opts, _, _} =
+      OptionParser.parse(args, switches: [no_stop_after: :boolean, iterations: :integer])
+
+    number_of_iterations = opts |> Keyword.get(:iterations, @default_number_of_number_of_iterations)
+    stop_after = opts |> Keyword.get(:no_stop_after, false) |> Kernel.not()
+
+    if number_of_iterations < 1 do
+      raise "Invalid value for number_of_iterations"
+    end
+
     versions = Versions.versions()
-    run_all(versions)
+    run_all(versions, number_of_iterations, stop_after)
   end
 
   defp exec_command(service, command) do
     System.cmd("docker-compose", ["exec", "-T", service] ++ command)
   end
 
-  def run_one({elixir_version, otp_version} = version) do
-    1..@iterations
+  def run_one({elixir_version, otp_version} = version, number_of_iterations, stop_after) do
+    service = "test_#{elixir_version}_#{otp_version}"
+
+    {_output, 0} = System.cmd("docker-compose", ["build", service])
+    {_output, 0} = System.cmd("docker-compose", ["up", "-d", service])
+    {_output, 0} = exec_command(service, ["mix", "deps.get"])
+    {_output, 0} = exec_command(service, ["mix", "deps.compile"])
+
+    return_values = 1..number_of_iterations
     |> Enum.map(fn iteration ->
       IO.puts("version: #{inspect(version)} iteration: #{iteration}")
-      service = "test_#{elixir_version}_#{otp_version}"
-
-      {_output, 0} = exec_command(service, ["mix", "deps.get"])
       {_output, return_value} = exec_command(service, ["mix", "test"])
-
       return_value
     end)
+
+    if stop_after do
+      System.cmd("docker-compose", ["stop", service])
+    end
+
+    return_values
   end
 
-  def run_all(versions) do
+  def run_all(versions, number_of_iterations, stop_after) do
+    System.cmd("docker-compose", ["up", "-d", "kafka1"])
+
     results =
       versions
-      |> Task.async_stream(&run_one/1, timeout: 120 * 3600)
+      |> Task.async_stream(&run_one(&1, number_of_iterations, stop_after),
+        timeout: 240 * 3600,
+        max_concurrency: 3,
+        ordered: true
+      )
       |> Enum.to_list()
       |> Keyword.values()
       |> Enum.map(&Enum.frequencies/1)
@@ -46,8 +71,8 @@ defmodule Mix.Tasks.RunAllTests do
       success_count = result |> Map.get(0, 0)
 
       IO.puts(
-        "[#{inspect(version)}] Successes: #{success_count / @iterations * 100}% Failures: #{
-          (@iterations - success_count) / @iterations * 100
+        "[#{inspect(version)}] Successes: #{success_count / number_of_iterations * 100}% Failures: #{
+          (number_of_iterations - success_count) / number_of_iterations * 100
         }%"
       )
     end)

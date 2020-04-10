@@ -27,6 +27,7 @@ defmodule Mix.Tasks.GenerateTestServices do
     - .:/code
     - build__#{elixir_version}_#{otp_version}:/code/_build
     - deps__#{elixir_version}_#{otp_version}:/code/deps
+    - hex-cache:/root/.hex/packages
     working_dir: /code
     command: tail -f /dev/null
     depends_on:
@@ -39,6 +40,7 @@ defmodule Mix.Tasks.GenerateTestServices do
       "version: '3.2'
 
 volumes:
+  hex-cache:
 #{volumes_text}
 
 services:

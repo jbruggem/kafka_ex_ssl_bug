@@ -44,10 +44,14 @@ docker-compose exec test_v1.10.2_23.0-rc2 mix test
 
 ## Run many times
 
-You can run these tests many times using:
+You can run these tests many times for the versions you want.
+
+First, tune `lib/test_runner/versions.ex` to your liking.
+
+Then, run:
 
 ```bash
-mix run_all_tests
+mix generate_test_services && mix run_all_tests --iterations 20
 ```
 
 Here are the results when running them several times on many versions of OTP:
@@ -80,5 +84,6 @@ Here are the results when running them several times on many versions of OTP:
 [{"v1.10.2", "22.3"}] Successes: 0.0% Failures: 100.0%
 
 # elixir 1.10 - OTP 23
-[{"v1.10.2", "23.0-rc2"}] Successes: 0.0% Failures: 100.0%
+# Doesn't work, can't compile one of kafka_exs dependencies
+# [{"v1.10.2", "23.0-rc2"}] Successes: ? Failures: ?
 ```
