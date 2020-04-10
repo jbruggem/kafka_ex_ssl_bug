@@ -84,6 +84,5 @@ Here are the results when running them several times on many versions of OTP:
 [{"v1.10.2", "22.3"}] Successes: 0.0% Failures: 100.0%
 
 # elixir 1.10 - OTP 23
-# Doesn't work, can't compile one of kafka_exs dependencies
-# [{"v1.10.2", "23.0-rc2"}] Successes: ? Failures: ?
+[{"v1.10.2", "23.0-rc2"}] Successes: 0.0% Failures: 100.0%
 ```

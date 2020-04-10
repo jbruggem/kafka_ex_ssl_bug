@@ -24,15 +24,19 @@ defmodule Mix.Tasks.RunAllTests do
   end
 
   defp exec_command(service, command) do
-    System.cmd("docker-compose", ["exec", "-T", service] ++ command)
+    System.cmd("docker-compose", ["exec", "-T", service] ++ command, stderr_to_stdout: true)
   end
 
   def run_one({elixir_version, otp_version} = version, number_of_iterations, stop_after) do
     service = "test_#{elixir_version}_#{otp_version}"
 
-    {_output, 0} = System.cmd("docker-compose", ["build", service])
-    {_output, 0} = System.cmd("docker-compose", ["up", "-d", service])
+    IO.puts("version: #{inspect(version)} build")
+    {_output, 0} = System.cmd("docker-compose", ["build", service], stderr_to_stdout: true)
+    IO.puts("version: #{inspect(version)} up")
+    {_output, 0} = System.cmd("docker-compose", ["up", "-d", service], stderr_to_stdout: true)
+    IO.puts("version: #{inspect(version)} deps.get")
     {_output, 0} = exec_command(service, ["mix", "deps.get"])
+    IO.puts("version: #{inspect(version)} deps.compile")
     {_output, 0} = exec_command(service, ["mix", "deps.compile"])
 
     return_values = 1..number_of_iterations
