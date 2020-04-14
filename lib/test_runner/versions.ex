@@ -10,6 +10,7 @@ defmodule TestRunner.Versions do
       # {"v1.9.4", "21.3.5"},
       {"v1.9.4", "21.3.7"},
       {"v1.9.4", "21.3.8.1"},
+      # {"v1.9.4", "21.3.8.1-ingela_anderton_andin_p1"}, # To use this, please run `erlang_otp/build.sh`
       # {"v1.9.4", "21.3.8.7"},
       # {"v1.9.4", "21.3.8.14"},
       # {"v1.9.4", "22.1"},

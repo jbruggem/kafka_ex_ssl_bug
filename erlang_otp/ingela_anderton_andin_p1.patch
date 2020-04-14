@@ -1,0 +1,14 @@
+diff --git a/lib/ssl/src/tls_connection.erl b/lib/ssl/src/tls_connection.erl
+index b88c7292a7..6044f1b90f 100644
+--- a/lib/ssl/src/tls_connection.erl
++++ b/lib/ssl/src/tls_connection.erl
+@@ -176,7 +176,8 @@ flow_ctrl(#state{user_data_buffer = {_,Size,_},
+     {no_record, State};
+ flow_ctrl(#state{user_data_buffer = {_,Size,_},
+                  socket_options = #socket_options{active = false},
+-                 bytes_to_read = BytesToRead} = State) when (Size >= BytesToRead) andalso
++                 bytes_to_read = BytesToRead} = State) when (BytesToRead =/= undefined) andalso
++                                                            (Size >= BytesToRead) andalso
+                                                             (BytesToRead > 0) ->
+     {no_record, State};
+ flow_ctrl(State) ->
